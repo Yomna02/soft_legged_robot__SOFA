@@ -31,9 +31,9 @@ def run_simulation(youngmodulus: float, poison: float, cable_inputs: list) -> tu
     createScene(root, poissonRatio=poison, youngModulus=youngmodulus) 
     Sofa.Simulation.init(root)
     
-    root.Leg.leg.PullingCable1.CableConstraint.value = [20]
-    root.Leg.leg.PullingCable2.CableConstraint.value = [0]
-    root.Leg.leg.PullingCable3.CableConstraint.value = [0]
+    root.Leg.leg.PullingCable1.CableConstraint.value = [cable_inputs[0]]
+    root.Leg.leg.PullingCable2.CableConstraint.value = [cable_inputs[1]]
+    root.Leg.leg.PullingCable3.CableConstraint.value = [cable_inputs[2]]
     Sofa.Simulation.animate(root, root.dt.value)
     leg_output = root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34]
 
