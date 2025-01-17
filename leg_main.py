@@ -130,12 +130,12 @@ def Leg(parentNode=None, name="Leg",
     # attach_one_way = parentNode.addChild('attach_one_way')
     leg = parentNode.addChild(name)
     eobject = ElasticMaterialObject(leg,
-                                    volumeMeshFileName="data/mesh/Solid_Cylinder_Coarse.vtk",
+                                    volumeMeshFileName="mesh/Solid_Cylinder_Coarse.vtk",
                                     poissonRatio=0.3,
                                     youngModulus=18000,
                                     totalMass=0.5,
                                     surfaceColor=[0.0, 0.8, 0.7, 1.0],
-                                    surfaceMeshFileName="data/mesh/Solid_Cylinder.stl",
+                                    surfaceMeshFileName="mesh/Solid_Cylinder.stl",
                                     rotation=rotation,
                                     translation=translation,
                                     name="leg")
@@ -152,7 +152,7 @@ def Leg(parentNode=None, name="Leg",
                          pullPointLocation=pullPointLocation,
                          rotation=[0.0, 90.0, -90.0],
                          translation=[0.0, 0.0, 0.0],
-                         cableGeometry=loadPointListFromFile("data/mesh/string.json"));
+                         cableGeometry=loadPointListFromFile("mesh/string.json"));
 
     eobject.addObject(FingerController1(cable1))
 
@@ -161,7 +161,7 @@ def Leg(parentNode=None, name="Leg",
                          pullPointLocation=pullPointLocation,
                          rotation=[120.0, 90.0, -90.0],
                          translation=[0.0, 0.0, 0.0],
-                         cableGeometry=loadPointListFromFile("data/mesh/string.json"));
+                         cableGeometry=loadPointListFromFile("mesh/string.json"));
 
     eobject.addObject(FingerController2(cable2))
 
@@ -170,12 +170,12 @@ def Leg(parentNode=None, name="Leg",
                          pullPointLocation=pullPointLocation,
                          rotation=[-120.0, 90.0, -90],
                          translation=[0.0, 0.0, 0.0],
-                         cableGeometry=loadPointListFromFile("data/mesh/string.json"));
+                         cableGeometry=loadPointListFromFile("mesh/string.json"));
 
     eobject.addObject(FingerController3(cable3))
 
     CollisionMesh(eobject, name="CollisionMesh",
-                  surfaceMeshFileName="data/mesh/Solid_Cylinder.stl",
+                  surfaceMeshFileName="mesh/Solid_Cylinder.stl",
                   rotation=rotation, translation=translation,
                   collisionGroup=[1, 2])
 
