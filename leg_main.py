@@ -11,7 +11,7 @@ from SofaRuntime import Timer
 import random
 import pandas as pd
 
-USE_GUI = False
+USE_GUI = True
 
 def main():
     import SofaRuntime
@@ -23,7 +23,7 @@ def main():
     createScene(root)
     Sofa.Simulation.init(root)
     # print(root.Leg.leg.PullingCable1.MechanicalObject.position.value[-1])
-    print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
+    # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
 
     if not USE_GUI:
         # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])        
@@ -89,6 +89,7 @@ class FingerController1(Sofa.Core.Controller):
             if displacement < 0:
                 displacement = 0
         self.cable.CableConstraint.value = [displacement]
+        print(displacement)
 
 class FingerController2(Sofa.Core.Controller):
     def __init__(self, *args, **kwargs):
@@ -127,7 +128,6 @@ class FingerController3(Sofa.Core.Controller):
 def Leg(parentNode=None, name="Leg",
            rotation=[90.0, 0.0, 0.0], translation=[0.0, 0.0, 0.0],
            fixingBox=[30.0, -30.0, 5.0, -30.0, 30.0, -10.0], pullPointLocation=[0.0, 0.0, 0.0]):
-    
     leg = parentNode.addChild(name)
     eobject = ElasticMaterialObject(leg,
                                     volumeMeshFileName="mesh/Solid_Cylinder_Coarse.vtk",
@@ -183,28 +183,14 @@ def createScene(rootNode):
     from stlib3.scene import MainHeader, ContactHeader
     rootNode.dt = 0.01
 
-    rootNode.addObject('RequiredPlugin', name="Sofa.GL.Component.Rendering3D", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.Collision.Detection.Algorithm", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.AnimationLoop", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Collision.Detection.Algorithm", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.Collision.Detection.Intersection", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Collision.Geometry", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Collision.Response.Contact", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.Constraint.Lagrangian.Correction", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Constraint.Lagrangian.Solver", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.IO.Mesh", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.LinearSolver.Iterative", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.LinearSolver.Direct", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Mapping.NonLinear", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Mass", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.ODESolver.Backward", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.StateContainer", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Topology.Container.Constant", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Visual", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.GL.Component.Rendering3D", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.SolidMechanics.FEM.Elastic", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.Engine.Select", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Constraint.Projective")
     rootNode.addObject('OglSceneFrame', style="Arrows", alignment="TopRight")
 
     MainHeader(rootNode, gravity=[0.0, 0.0, -981.0], plugins=["SoftRobots"])
@@ -212,7 +198,7 @@ def createScene(rootNode):
     rootNode.VisualStyle.displayFlags = "showBehavior showCollisionModels"
     rootNode.addObject( TimerController() )
 
-    Leg(rootNode, translation=[0.0, 0.0, 0.0])
+    Leg(rootNode)
 
     return rootNode
 
