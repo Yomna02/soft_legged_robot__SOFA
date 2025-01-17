@@ -23,32 +23,33 @@ def main():
     createScene(root)
     Sofa.Simulation.init(root)
     # print(root.Leg.leg.PullingCable1.MechanicalObject.position.value[-1])
-    print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
+    # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
+#Eshra was here    
 
     if not USE_GUI:
-        # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])        
-        # for i in range(10):
-        #     root.Leg.leg.PullingCable1.CableConstraint.value = [i]
-        #     Sofa.Simulation.animate(root, root.dt.value)
-        #     print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
+        print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])        
+        # for i in range(20):
+        root.Leg.leg.PullingCable1.CableConstraint.value = [20]
+        Sofa.Simulation.animate(root, root.dt.value)
+        print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
 
-        data = []
-        columns = ["Cable 1 Input", "Cable 2 Input", "Cable 3 Input", "x", "y", "z"]
+        # data = []
+        # columns = ["Cable 1 Input", "Cable 2 Input", "Cable 3 Input", "x", "y", "z"]
                 
-        for _ in range(1000):
-            cable_inputs = [random.randint(0, 36) for _ in range(3)]
+        # for _ in range(1000):
+        #     cable_inputs = [random.randint(0, 36) for _ in range(3)]
             
-            root.Leg.leg.PullingCable1.CableConstraint.value = [cable_inputs[0]]
-            root.Leg.leg.PullingCable2.CableConstraint.value = [cable_inputs[1]]
-            root.Leg.leg.PullingCable3.CableConstraint.value = [cable_inputs[2]]
-            Sofa.Simulation.animate(root, root.dt.value)
-            leg_output = root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34]
+        #     root.Leg.leg.PullingCable1.CableConstraint.value = [cable_inputs[0]]
+        #     root.Leg.leg.PullingCable2.CableConstraint.value = [cable_inputs[1]]
+        #     root.Leg.leg.PullingCable3.CableConstraint.value = [cable_inputs[2]]
+        #     Sofa.Simulation.animate(root, root.dt.value)
+        #     leg_output = root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34]
             
-            data.append(cable_inputs + leg_output.tolist())
+        #     data.append(cable_inputs + leg_output.tolist())
 
-        df = pd.DataFrame(data, columns=columns)
-        df.to_csv("leg_data.csv", index=False)
-        print("Done")
+        # df = pd.DataFrame(data, columns=columns)
+        # df.to_csv("leg_data.csv", index=False)
+        # print("Done")
 
     else:
         Sofa.Gui.GUIManager.Init("myscene", "qglviewer")
@@ -89,6 +90,7 @@ class FingerController1(Sofa.Core.Controller):
             if displacement < 0:
                 displacement = 0
         self.cable.CableConstraint.value = [displacement]
+        print(displacement)
 
 class FingerController2(Sofa.Core.Controller):
     def __init__(self, *args, **kwargs):
