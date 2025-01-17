@@ -15,18 +15,6 @@ import numpy as np
 USE_GUI = False
 
 def run_simulation(youngmodulus: float, poison: float, cable_inputs: list) -> tuple:
-    '''
-    Run the simulation with the given stiffness, poison ratio and cable inputs
-
-    Args:
-        - youngmodulus: float (young modulus of the material)
-        - poison: float (poison ratio of the material)
-        - cable_inputs: list (cable inputs for the leg)
-
-    Returns:
-        leg_output: tuple (position of the leg after simulation)
-
-    '''
     root = Sofa.Core.Node("root")
     createScene(root, poissonRatio=poison, youngModulus=youngmodulus) 
     Sofa.Simulation.init(root)
