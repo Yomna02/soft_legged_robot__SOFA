@@ -10,53 +10,34 @@ import Sofa.Gui
 from SofaRuntime import Timer
 import random
 import pandas as pd
+import numpy as np
 
 USE_GUI = False
 
-def main():
-    import SofaRuntime
-    import Sofa.Gui
-    SofaRuntime.importPlugin("SofaOpenglVisual")
-    SofaRuntime.importPlugin("SofaImplicitOdeSolver")
+def run_simulation(youngmodulus: float, poison: float, cable_inputs: list) -> tuple:
+    '''
+    Run the simulation with the given stiffness, poison ratio and cable inputs
 
+    Args:
+        - youngmodulus: float (young modulus of the material)
+        - poison: float (poison ratio of the material)
+        - cable_inputs: list (cable inputs for the leg)
+
+    Returns:
+        leg_output: tuple (position of the leg after simulation)
+
+    '''
     root = Sofa.Core.Node("root")
-    createScene(root)
+    createScene(root, poissonRatio=poison, youngModulus=youngmodulus) 
     Sofa.Simulation.init(root)
-    # print(root.Leg.leg.PullingCable1.MechanicalObject.position.value[-1])
-    # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
-#Eshra was here    
+    
+    root.Leg.leg.PullingCable1.CableConstraint.value = [20]
+    root.Leg.leg.PullingCable2.CableConstraint.value = [0]
+    root.Leg.leg.PullingCable3.CableConstraint.value = [0]
+    Sofa.Simulation.animate(root, root.dt.value)
+    leg_output = root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34]
 
-    if not USE_GUI:
-        print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])        
-        # for i in range(20):
-        root.Leg.leg.PullingCable1.CableConstraint.value = [20]
-        Sofa.Simulation.animate(root, root.dt.value)
-        print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
-
-        # data = []
-        # columns = ["Cable 1 Input", "Cable 2 Input", "Cable 3 Input", "x", "y", "z"]
-                
-        # for _ in range(1000):
-        #     cable_inputs = [random.randint(0, 36) for _ in range(3)]
-            
-        #     root.Leg.leg.PullingCable1.CableConstraint.value = [cable_inputs[0]]
-        #     root.Leg.leg.PullingCable2.CableConstraint.value = [cable_inputs[1]]
-        #     root.Leg.leg.PullingCable3.CableConstraint.value = [cable_inputs[2]]
-        #     Sofa.Simulation.animate(root, root.dt.value)
-        #     leg_output = root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34]
-            
-        #     data.append(cable_inputs + leg_output.tolist())
-
-        # df = pd.DataFrame(data, columns=columns)
-        # df.to_csv("leg_data.csv", index=False)
-        # print("Done")
-
-    else:
-        Sofa.Gui.GUIManager.Init("myscene", "qglviewer")
-        Sofa.Gui.GUIManager.createGUI(root, __file__)
-        Sofa.Gui.GUIManager.SetDimension(1080, 1080)
-        Sofa.Gui.GUIManager.MainLoop(root)
-        Sofa.Gui.GUIManager.closeGUI()
+    return leg_output
 
 class TimerController(Sofa.Core.Controller):
 
@@ -90,7 +71,6 @@ class FingerController1(Sofa.Core.Controller):
             if displacement < 0:
                 displacement = 0
         self.cable.CableConstraint.value = [displacement]
-        print(displacement)
 
 class FingerController2(Sofa.Core.Controller):
     def __init__(self, *args, **kwargs):
@@ -128,13 +108,14 @@ class FingerController3(Sofa.Core.Controller):
 
 def Leg(parentNode=None, name="Leg",
            rotation=[90.0, 0.0, 0.0], translation=[0.0, 0.0, 0.0],
-           fixingBox=[30.0, -30.0, 5.0, -30.0, 30.0, -10.0], pullPointLocation=[0.0, 0.0, 0.0]):
+           fixingBox=[30.0, -30.0, 5.0, -30.0, 30.0, -10.0], pullPointLocation=[0.0, 0.0, 0.0]
+           , poissonRatio=0.3, youngModulus=18000):
     
     leg = parentNode.addChild(name)
     eobject = ElasticMaterialObject(leg,
                                     volumeMeshFileName="mesh/Solid_Cylinder_Coarse.vtk",
-                                    poissonRatio=0.3,
-                                    youngModulus=18000,
+                                    poissonRatio=poissonRatio,
+                                    youngModulus=youngModulus,
                                     totalMass=0.5,
                                     surfaceColor=[0.0, 0.8, 0.7, 1.0],
                                     surfaceMeshFileName="mesh/Solid_Cylinder.stl",
@@ -181,7 +162,7 @@ def Leg(parentNode=None, name="Leg",
     return leg
 
 
-def createScene(rootNode):
+def createScene(rootNode, poissonRatio, youngModulus):
     from stlib3.scene import MainHeader, ContactHeader
     rootNode.dt = 0.01
 
@@ -214,9 +195,6 @@ def createScene(rootNode):
     rootNode.VisualStyle.displayFlags = "showBehavior showCollisionModels"
     rootNode.addObject( TimerController() )
 
-    Leg(rootNode, translation=[0.0, 0.0, 0.0])
+    Leg(rootNode, translation=[0.0, 0.0, 0.0], poissonRatio=poissonRatio, youngModulus=youngModulus)
 
     return rootNode
-
-if __name__ == '__main__':
-    main()
