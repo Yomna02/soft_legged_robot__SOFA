@@ -27,6 +27,9 @@ roll = data['roll'].to_numpy()
 pitch = data['pitch'].to_numpy()
 yaw = data['yaw'].to_numpy()
 
+pitch = -pitch
+yaw = -yaw
+
 A_3_3 = cos(radians(roll)) * cos(radians(pitch))
 A_3_2 = sin(radians(roll)) * cos(radians(pitch))
 A_3_1 = -sin(radians(pitch))
