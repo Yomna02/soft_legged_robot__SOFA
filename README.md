@@ -2,7 +2,8 @@
 
 
 ```bash
- source load_plg.sh```
+ source load_plg.sh
+```
 
 TODO:
 
