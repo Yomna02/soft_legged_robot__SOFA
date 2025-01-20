@@ -24,7 +24,9 @@ def main():
     Sofa.Simulation.init(root)
     # print(root.Leg.leg.PullingCable1.MechanicalObject.position.value[-1])
     # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
-
+    # root.Leg.leg.poissonRatio.value = 0.4
+    root.Leg.leg.setDataValues(totalMass=10)
+    
     if not USE_GUI:
         # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])        
         # for i in range(10):

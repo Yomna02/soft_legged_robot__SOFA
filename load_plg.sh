@@ -20,5 +20,5 @@ done
 # Export the PYTHONPATH
 export PYTHONPATH="${PYTHONPATH}" # Remove the trailing colon
 
-# Optionally, print PYTHONPATH to verify
-echo "PYTHONPATH set to: $PYTHONPATH"
+echo "Done Sourcing Sofa PYTHONPATH"
+
