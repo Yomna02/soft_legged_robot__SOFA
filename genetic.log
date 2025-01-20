@@ -1,0 +1,13 @@
+logging data for gentetic algorithm
+Generation: 0	Best individual: [1.95411422e-01 1.51382847e+04]	Fitness: 16.370452950086126
+Generation: 1	Best individual: [2.49419230e-01 1.83487566e+04]	Fitness: 16.054520472840878
+Generation: 2	Best individual: [2.43493175e-01 2.28115507e+04]	Fitness: 16.180796998759554
+Generation: 3	Best individual: [9.32669616e-02 2.10544243e+04]	Fitness: 15.707266542342705
+Generation: 4	Best individual: [2.63326318e-01 2.22958439e+04]	Fitness: 16.05286955597096
+Generation: 5	Best individual: [3.57328635e-02 1.94061422e+04]	Fitness: 15.915028205670641
+Generation: 6	Best individual: [3.98055739e-01 1.85095810e+04]	Fitness: 16.253639759975297
+Generation: 7	Best individual: [2.45244483e-01 2.03514503e+04]	Fitness: 16.05293834712269
+Generation: 8	Best individual: [4.84183615e-01 2.24078751e+04]	Fitness: 16.107468633126008
+Generation: 9	Best individual: [2.24285711e-02 1.43622661e+04]	Fitness: 16.00742229087122
+=============================================
+Overall Best individual: ([0.09326696158645303, 21054.42434106176], 15.707266542342705)
