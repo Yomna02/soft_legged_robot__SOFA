@@ -2,6 +2,7 @@
 import Sofa.Core
 import Sofa.constants.Key as Key
 from stlib3.physics.deformable import ElasticMaterialObject
+from stlib3.physics.rigid import RigidObject
 from stlib3.physics.constraints import FixedBox
 from softrobots.actuators import PullingCable
 from stlib3.physics.collision import CollisionMesh
@@ -139,10 +140,27 @@ def Leg(parentNode=None, name="Leg",
                                     rotation=rotation,
                                     translation=translation,
                                     name="leg")
+    
+    robject = RigidObject(leg, 
+                          name="RigidObject", 
+                          surfaceMeshFileName="mesh/ball.obj", 
+                          translation=[0.0, 0.0, 175.0], 
+                          rotation=[0.0, 0.0, 0.0], 
+                          uniformScale=1.0, totalMass=1.0, 
+                          volume=1.0, 
+                          inertiaMatrix=[1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0], 
+                          color=[1.0, 1.0, 0.0], isAStaticObject=False)
 
     leg.addChild(eobject)
 
+    leg.addChild(robject)
+
     FixedBox(eobject, atPositions=fixingBox, doVisualization=True)
+
+    CollisionMesh(eobject, name="CollisionMesh",
+                  surfaceMeshFileName="mesh/Solid_Cylinder.stl",
+                  rotation=rotation, translation=translation,
+                  collisionGroup=[1, 2])
 
     cable1 = PullingCable(eobject,
                          "PullingCable1",
@@ -170,12 +188,7 @@ def Leg(parentNode=None, name="Leg",
                          cableGeometry=loadPointListFromFile("mesh/string.json"));
 
     eobject.addObject(FingerController3(cable3))
-
-    CollisionMesh(eobject, name="CollisionMesh",
-                  surfaceMeshFileName="mesh/Solid_Cylinder.stl",
-                  rotation=rotation, translation=translation,
-                  collisionGroup=[1, 2])
-
+    
     return leg
 
 
