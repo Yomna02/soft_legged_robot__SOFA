@@ -43,8 +43,7 @@ class FingerController1(Sofa.Core.Controller):
             if displacement < 0:
                 displacement = 0
         self.cable.CableConstraint.value = [displacement]
-        print(displacement)
-
+        
 class FingerController2(Sofa.Core.Controller):
     def __init__(self, *args, **kwargs):
         Sofa.Core.Controller.__init__(self, args, kwargs)
