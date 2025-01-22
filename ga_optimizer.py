@@ -132,8 +132,12 @@ def genetic() -> None:
     best_individuals = []
 
     with open('genetic.log', 'w') as f:
-        f.write('logging data for gentetic algorithm')
-        f.write('\n')
+        f.write('Genetic Algorithm\n')
+        f.write('-----------------\n')
+        f.write('Population size: ' + str(population_size) + '\n')
+        f.write('Number of generations: ' + str(num_generations) + '\n')
+        f.write("sample_size: " + str(500) + "\n")
+        f.write('----------------------------------------------\n')
         
         for g in range(num_generations):
             print("Generation:", g)

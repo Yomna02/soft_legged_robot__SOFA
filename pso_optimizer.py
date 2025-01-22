@@ -77,7 +77,7 @@ def update_particles(particles: Particle, global_best_position: np.ndarray, w: f
         particle.position += particle.velocity
         particle.position = np.clip(particle.position, [poisson_min, youngs_min], [poisson_max, youngs_max])  # Ensure weights are between 0 and 1
         
-def pso_portfolio_optimization(n_particles: int, n_iterations: int) :
+def pso_portfolio_optimization(n_particles: int, n_iterations: int, sample_size: int = 500) -> tuple:
     """
     Perform Particle Swarm Optimization to find the optimal asset weights.
     - n_particles: Number of particles in the swarm.
@@ -90,11 +90,14 @@ def pso_portfolio_optimization(n_particles: int, n_iterations: int) :
     # Initialize global best position
     global_best_position = Particle().position
     global_best_score = float('inf')
-    
+
     with open('partical_swarm.log', 'w') as f:
         f.write("Particle Swarm Optimization\n")
+        f.write("---------------------------\n")
         f.write("Number of Particles: " + str(n_particles) + "\n")
         f.write("Number of Iterations: " + str(n_iterations) + "\n")
+        f.write("sample_size: " + sample_size + "\n")
+        f.write("----------------------------------------------\n")
         # PSO parameters
         w = 0.8  # Inertia weight: how much particles are influenced by their own direction
         c1 = 1.8  # Cognitive coefficient: how well particles learn from their own best solutions
@@ -104,7 +107,7 @@ def pso_portfolio_optimization(n_particles: int, n_iterations: int) :
         for _ in range(n_iterations):
             update_particles(particles, global_best_position, w, c1, c2)
             for particle in particles:
-                score = objective_function(particle.position, sample_size=500)
+                score = objective_function(particle.position, sample_size=sample_size)
                 if score < global_best_score:
                     # Update the global best position and score
                     global_best_position = np.copy(particle.position)
