@@ -8,6 +8,7 @@ from softrobots.actuators import PullingCable
 from stlib3.physics.collision import CollisionMesh
 from splib3.loaders import loadPointListFromFile
 import Sofa.Gui
+from SofaRuntime import Timer
 import random
 import pandas as pd
 
@@ -22,7 +23,6 @@ def main():
     root = Sofa.Core.Node("root")
     createScene(root)
     Sofa.Simulation.init(root)
-    root.Leg.leg.setDataValues(totalMass=10)
     
     if not USE_GUI:
         # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])        
@@ -66,6 +66,8 @@ class TimerController(Sofa.Core.Controller):
 
     def onAnimateBeginEvent(self, event):
         pass
+        # print("Position")
+        # print(rootNode.Finger.leg.sphere.mstate.position.value)
 
     def onAnimateEndEvent(self, event):
         pass
@@ -137,19 +139,19 @@ def Leg(parentNode=None, name="Leg",
                                     translation=translation,
                                     name="leg")
     
-    robject = RigidObject(leg, 
-                          name="RigidObject", 
-                          surfaceMeshFileName="mesh/ball.obj", 
-                          translation=[0.0, 0.0, 175.0], 
-                          rotation=[0.0, 0.0, 0.0], 
-                          uniformScale=1.0, totalMass=1.0, 
-                          volume=1.0, 
-                          inertiaMatrix=[1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0], 
-                          color=[1.0, 1.0, 0.0], isAStaticObject=False)
+    # robject = RigidObject(leg, 
+    #                       name="RigidObject", 
+    #                       surfaceMeshFileName="mesh/ball.obj", 
+    #                       translation=[0.0, 0.0, 175.0], 
+    #                       rotation=[0.0, 0.0, 0.0], 
+    #                       uniformScale=1.0, totalMass=1.0, 
+    #                       volume=1.0, 
+    #                       inertiaMatrix=[1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0], 
+    #                       color=[1.0, 1.0, 0.0], isAStaticObject=False)
 
     leg.addChild(eobject)
 
-    leg.addChild(robject)
+    # leg.addChild(robject)
 
     FixedBox(eobject, atPositions=fixingBox, doVisualization=True)
 
