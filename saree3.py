@@ -20,8 +20,6 @@ def main():
     root = Sofa.Core.Node("root")
     createScene(root)
     Sofa.Simulation.init(root)
-    # print(root.Leg.leg.PullingCable1.MechanicalObject.position.value[-1])
-    # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
 
     if not USE_GUI:
         print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])        
@@ -46,8 +44,6 @@ class TimerController(Sofa.Core.Controller):
 
     def onAnimateBeginEvent(self, event):
         pass
-        # print("Position")
-        # print(rootNode.Finger.leg.sphere.mstate.position.value)
 
     def onAnimateEndEvent(self, event):
         pass
@@ -211,8 +207,8 @@ def Leg(parentNode=None, name="Leg",
     leg = parentNode.addChild(name)
     eobject = ElasticMaterialObject(leg,
                                     volumeMeshFileName="mesh/robot.vtk",
-                                    poissonRatio=0.3,
-                                    youngModulus=18000,
+                                    poissonRatio=0.070355,
+                                    youngModulus=17692.356,
                                     totalMass=3,
                                     surfaceColor=[0.0, 0.8, 0.7, 1.0],
                                     surfaceMeshFileName="mesh/robot.stl",
@@ -351,8 +347,8 @@ def createScene(rootNode):
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.Engine.Select", printLog=False)
     rootNode.addObject('OglSceneFrame', style="Arrows", alignment="TopRight")
 
-    MainHeader(rootNode, gravity=[0.0, 0.0, -2000.0], plugins=["SoftRobots"])
-    ContactHeader(rootNode, alarmDistance=4, contactDistance=0.05, frictionCoef=1)
+    MainHeader(rootNode, gravity=[0.0, 0.0, -9810.0], plugins=["SoftRobots"])
+    ContactHeader(rootNode, alarmDistance=0.1*100, contactDistance=0.05*100, frictionCoef=8)
     rootNode.VisualStyle.displayFlags = "showBehavior showCollisionModels"
     rootNode.addObject( TimerController() )
 

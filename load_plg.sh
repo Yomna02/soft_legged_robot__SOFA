@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Base directory where the plugin directories are located
-BASE_DIR="/home/beedo/SOFA/v23.06.00/plugins"
+BASE_DIR="/home/youmna/MYSOFA/v23.06.00/plugins"
 
 # Initialize PYTHONPATH variable
 PYTHONPATH=""
 
-export SOFA_ROOT="/home/beedo/SOFA/v23.06.00"
+export SOFA_ROOT="/home/youmna/MYSOFA/v23.06.00"
 
 # Loop through each plugin directory in BASE_DIR
 for plugin_dir in "$BASE_DIR"/*; do
@@ -20,5 +20,5 @@ done
 # Export the PYTHONPATH
 export PYTHONPATH="${PYTHONPATH}" # Remove the trailing colon
 
-# Optionally, print PYTHONPATH to verify
-echo "PYTHONPATH set to: $PYTHONPATH"
+echo "Done Sourcing Sofa PYTHONPATH"
+
