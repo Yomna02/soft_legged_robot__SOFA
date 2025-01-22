@@ -7,12 +7,9 @@ from softrobots.actuators import PullingCable
 from stlib3.physics.collision import CollisionMesh
 from splib3.loaders import loadPointListFromFile
 import Sofa.Gui
-import random
-import pandas as pd
-
-USE_GUI = True
 
 def main():
+    global pos 
     import SofaRuntime
     import Sofa.Gui
     SofaRuntime.importPlugin("SofaOpenglVisual")
@@ -83,17 +80,22 @@ def Leg(parentNode=None, name="Leg",
            fixingBox=[30.0, -30.0, 5.0, -30.0, 30.0, -10.0], pullPointLocation=[0.0, 0.0, 0.0]):
     leg = parentNode.addChild(name)
     eobject = ElasticMaterialObject(leg,
-                                    volumeMeshFileName="mesh/Solid_Cylinder_Coarse.vtk",
-                                    poissonRatio=0.3,
-                                    youngModulus=18000,
+                                    volumeMeshFileName="mesh/leg_coarse.vtk",
+                                    poissonRatio=0.070355,
+                                    youngModulus=17692.356,
                                     totalMass=0.5,
                                     surfaceColor=[0.0, 0.8, 0.7, 1.0],
-                                    surfaceMeshFileName="mesh/Solid_Cylinder.stl",
+                                    surfaceMeshFileName="mesh/leg.stl",
                                     rotation=rotation,
                                     translation=translation,
                                     name="leg")
 
     leg.addChild(eobject)
+
+    CollisionMesh(eobject, name="CollisionMesh",
+                  surfaceMeshFileName="mesh/leg.stl",
+                  rotation=rotation, translation=translation,
+                  collisionGroup=[1, 2])
 
     FixedBox(eobject, atPositions=fixingBox, doVisualization=True)
 
@@ -124,11 +126,6 @@ def Leg(parentNode=None, name="Leg",
 
     eobject.addObject(FingerController3(cable3))
 
-    CollisionMesh(eobject, name="CollisionMesh",
-                  surfaceMeshFileName="mesh/Solid_Cylinder.stl",
-                  rotation=rotation, translation=translation,
-                  collisionGroup=[1, 2])
-
     return leg
 
 
@@ -137,18 +134,24 @@ def createScene(rootNode):
     rootNode.dt = 0.01
 
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.Collision.Detection.Algorithm", printLog=False)
-    rootNode.addObject('RequiredPlugin', name="Sofa.Component.AnimationLoop", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.Collision.Detection.Intersection", printLog=False)
+    rootNode.addObject('RequiredPlugin', name="Sofa.Component.AnimationLoop", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.Constraint.Lagrangian.Correction", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.IO.Mesh", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.LinearSolver.Direct", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.SolidMechanics.FEM.Elastic", printLog=False)
     rootNode.addObject('RequiredPlugin', name="Sofa.Component.Engine.Select", printLog=False)
+    rootNode.addObject('RequiredPlugin', name="Sofa.GL.Component.Shader")
+    rootNode.addObject('RequiredPlugin', name="Sofa.Component.Constraint.Projective")
     rootNode.addObject('OglSceneFrame', style="Arrows", alignment="TopRight")
-
+    
     MainHeader(rootNode, gravity=[0.0, 0.0, -981.0], plugins=["SoftRobots"])
     ContactHeader(rootNode, alarmDistance=4, contactDistance=3, frictionCoef=0.08)
     rootNode.VisualStyle.displayFlags = "showBehavior showCollisionModels"
+
+    rootNode.addObject('LightManager', )
+    rootNode.addObject('SpotLight', name="light1", color="1 1 1", position="0 0 300", cutoff="25", exponent="1", drawSource="false")
+    rootNode.addObject('SpotLight', name="light2", color="1 1 1", position="300 0 90", direction="-1 0 0", cutoff="25", exponent="1", drawSource="false")
 
     Leg(rootNode)
 
