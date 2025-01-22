@@ -7,7 +7,6 @@ from softrobots.actuators import PullingCable
 from stlib3.physics.collision import CollisionMesh
 from splib3.loaders import loadPointListFromFile
 import Sofa.Gui
-from SofaRuntime import Timer
 import random
 import pandas as pd
 
@@ -22,58 +21,11 @@ def main():
     root = Sofa.Core.Node("root")
     createScene(root)
     Sofa.Simulation.init(root)
-    # print(root.Leg.leg.PullingCable1.MechanicalObject.position.value[-1])
-    # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
-    # root.Leg.leg.poissonRatio.value = 0.4
-    # root.Leg.leg.setDataValues(totalMass=10)
-    
-    if not USE_GUI:
-        # print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])        
-        # for i in range(10):
-        #     root.Leg.leg.PullingCable1.CableConstraint.value = [i]
-        #     Sofa.Simulation.animate(root, root.dt.value)
-        #     print(root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34])
-
-        data = []
-        columns = ["Cable 1 Input", "Cable 2 Input", "Cable 3 Input", "x", "y", "z"]
-                
-        for _ in range(1000):
-            cable_inputs = [random.randint(0, 36) for _ in range(3)]
-            
-            root.Leg.leg.PullingCable1.CableConstraint.value = [cable_inputs[0]]
-            root.Leg.leg.PullingCable2.CableConstraint.value = [cable_inputs[1]]
-            root.Leg.leg.PullingCable3.CableConstraint.value = [cable_inputs[2]]
-            Sofa.Simulation.animate(root, root.dt.value)
-            leg_output = root.Leg.leg.CollisionMesh.MechanicalObject.position.value[-34]
-            
-            data.append(cable_inputs + leg_output.tolist())
-
-        df = pd.DataFrame(data, columns=columns)
-        df.to_csv("leg_data.csv", index=False)
-        print("Done")
-
-    else:
-        Sofa.Gui.GUIManager.Init("myscene", "qglviewer")
-        Sofa.Gui.GUIManager.createGUI(root, __file__)
-        Sofa.Gui.GUIManager.SetDimension(1080, 1080)
-        Sofa.Gui.GUIManager.MainLoop(root)
-        Sofa.Gui.GUIManager.closeGUI()
-
-class TimerController(Sofa.Core.Controller):
-
-    def __init__(self, *args, **kwargs):
-        Sofa.Core.Controller.__init__(self, *args, **kwargs)
-
-        # This is needed to avoid a conflict with the timer of runSofa
-        self.use_sofa_profiler_timer = False
-
-    def onAnimateBeginEvent(self, event):
-        pass
-        # print("Position")
-        # print(rootNode.Finger.leg.sphere.mstate.position.value)
-
-    def onAnimateEndEvent(self, event):
-        pass
+    Sofa.Gui.GUIManager.Init("myscene", "qglviewer")
+    Sofa.Gui.GUIManager.createGUI(root, __file__)
+    Sofa.Gui.GUIManager.SetDimension(1080, 1080)
+    Sofa.Gui.GUIManager.MainLoop(root)
+    Sofa.Gui.GUIManager.closeGUI()
 
 class FingerController1(Sofa.Core.Controller):
     def __init__(self, *args, **kwargs):
@@ -198,7 +150,6 @@ def createScene(rootNode):
     MainHeader(rootNode, gravity=[0.0, 0.0, -981.0], plugins=["SoftRobots"])
     ContactHeader(rootNode, alarmDistance=4, contactDistance=3, frictionCoef=0.08)
     rootNode.VisualStyle.displayFlags = "showBehavior showCollisionModels"
-    rootNode.addObject( TimerController() )
 
     Leg(rootNode)
 
