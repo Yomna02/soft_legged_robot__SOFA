@@ -91,12 +91,12 @@ def pso_portfolio_optimization(n_particles: int, n_iterations: int, sample_size:
     global_best_position = Particle().position
     global_best_score = float('inf')
 
-    with open('partical_swarm.log', 'w') as f:
+    with open('particle_swarm.log', 'w') as f:
         f.write("Particle Swarm Optimization\n")
         f.write("---------------------------\n")
         f.write("Number of Particles: " + str(n_particles) + "\n")
         f.write("Number of Iterations: " + str(n_iterations) + "\n")
-        f.write("sample_size: " + sample_size + "\n")
+        f.write("sample_size: " + str(sample_size) + "\n")
         f.write("----------------------------------------------\n")
         # PSO parameters
         w = 0.8  # Inertia weight: how much particles are influenced by their own direction
@@ -132,9 +132,9 @@ def pso_portfolio_optimization(n_particles: int, n_iterations: int, sample_size:
 
 # Run the PSO algorithm
 n_particles = 50  # Number of particles
-n_iterations = 10  # Number of iterations
-poisson_min = 0
-poisson_max = 0.5
+n_iterations = 15  # Number of iterations
+poisson_min = 0.01
+poisson_max = 0.499
 youngs_min = 0
 youngs_max = 25000
 

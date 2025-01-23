@@ -6,9 +6,6 @@ from stlib3.physics.constraints import FixedBox
 from softrobots.actuators import PullingCable
 from stlib3.physics.collision import CollisionMesh
 from splib3.loaders import loadPointListFromFile
-from SofaRuntime import Timer
-import random
-import pandas as pd
 import numpy as np
 
 USE_GUI = False

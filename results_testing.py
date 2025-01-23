@@ -101,5 +101,5 @@ pso, pso_best = data_import('particle_swarm.log')
 gen_rmse = fitness_function(gen_best)
 pso_rmse = fitness_function(pso_best)
 
-print("Genetic Algorithm RMSE: ", gen_rmse) #individual:  (0.09326696158645303, 21054.42434106176)      fitness:  16.42782119208754
-print("Particle Swarm Optimization RMSE: ", pso_rmse) #individual:  (0.070355302, 17692.356)      fitness:  16.410642895850238
+print("Genetic Algorithm RMSE: ", gen_rmse) #individual:  (0.1742459030014992, 17381.496940515673)      fitness:  16.473918397753092
+print("Particle Swarm Optimization RMSE: ", pso_rmse) #individual:  (0.0821706941, 15997.6155)      fitness:  16.4248457275142
