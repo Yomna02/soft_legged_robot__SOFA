@@ -8,14 +8,15 @@ from stlib3.physics.collision import CollisionMesh
 from splib3.loaders import loadPointListFromFile
 import Sofa.Gui
 
+path = __file__
+path = path[:path.rfind("/")]
+
 def main():
-    global pos 
     import SofaRuntime
     import Sofa.Gui
     SofaRuntime.importPlugin("SofaOpenglVisual")
     SofaRuntime.importPlugin("SofaImplicitOdeSolver")
-
-    root = Sofa.Core.Node("root")
+    
     createScene(root)
     Sofa.Simulation.init(root)
     Sofa.Gui.GUIManager.Init("myscene", "qglviewer")
@@ -80,12 +81,12 @@ def Leg(parentNode=None, name="Leg",
            fixingBox=[30.0, -30.0, 5.0, -30.0, 30.0, -10.0], pullPointLocation=[0.0, 0.0, 0.0]):
     leg = parentNode.addChild(name)
     eobject = ElasticMaterialObject(leg,
-                                    volumeMeshFileName="mesh/leg_coarse.vtk",
-                                    poissonRatio=0.070355,
-                                    youngModulus=17692.356,
+                                    volumeMeshFileName=path + "/mesh/leg_coarse.vtk",
+                                    poissonRatio=0.0821706941,
+                                    youngModulus=15997.6155,
                                     totalMass=0.5,
                                     surfaceColor=[0.0, 0.8, 0.7, 1.0],
-                                    surfaceMeshFileName="mesh/leg.stl",
+                                    surfaceMeshFileName=path + "/mesh/leg.stl",
                                     rotation=rotation,
                                     translation=translation,
                                     name="leg")
@@ -93,7 +94,7 @@ def Leg(parentNode=None, name="Leg",
     leg.addChild(eobject)
 
     CollisionMesh(eobject, name="CollisionMesh",
-                  surfaceMeshFileName="mesh/leg.stl",
+                  surfaceMeshFileName=path + "/mesh/leg.stl",
                   rotation=rotation, translation=translation,
                   collisionGroup=[1, 2])
 
@@ -104,7 +105,7 @@ def Leg(parentNode=None, name="Leg",
                          pullPointLocation=pullPointLocation,
                          rotation=[0.0, 90.0, -90.0],
                          translation=[0.0, 0.0, 0.0],
-                         cableGeometry=loadPointListFromFile("mesh/string.json"));
+                         cableGeometry=loadPointListFromFile(path + "/mesh/string.json"));
 
     eobject.addObject(FingerController1(cable1))
 
@@ -113,7 +114,7 @@ def Leg(parentNode=None, name="Leg",
                          pullPointLocation=pullPointLocation,
                          rotation=[120.0, 90.0, -90.0],
                          translation=[0.0, 0.0, 0.0],
-                         cableGeometry=loadPointListFromFile("mesh/string.json"));
+                         cableGeometry=loadPointListFromFile(path + "/mesh/string.json"));
 
     eobject.addObject(FingerController2(cable2))
 
@@ -122,7 +123,7 @@ def Leg(parentNode=None, name="Leg",
                          pullPointLocation=pullPointLocation,
                          rotation=[-120.0, 90.0, -90],
                          translation=[0.0, 0.0, 0.0],
-                         cableGeometry=loadPointListFromFile("mesh/string.json"));
+                         cableGeometry=loadPointListFromFile(path + "/mesh/string.json"));
 
     eobject.addObject(FingerController3(cable3))
 
@@ -158,4 +159,5 @@ def createScene(rootNode):
     return rootNode
 
 if __name__ == '__main__':
+    root = Sofa.Core.Node("root")
     main()
