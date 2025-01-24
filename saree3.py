@@ -2,7 +2,6 @@
 import Sofa.Core
 import Sofa.constants.Key as Key
 from stlib3.physics.deformable import ElasticMaterialObject
-from stlib3.physics.constraints import FixedBox
 from softrobots.actuators import PullingCable
 from stlib3.physics.collision import CollisionMesh
 from splib3.loaders import loadPointListFromFile
@@ -193,12 +192,12 @@ def Robot(parentNode=None, name="Robot",
 
     robot = parentNode.addChild(name)
     eobject = ElasticMaterialObject(robot,
-                                    volumeMeshFileName="mesh/robot.vtk",
+                                    volumeMeshFileName="mesh/robot_50mm.vtk",
                                     poissonRatio=0.070355,
                                     youngModulus=17692.356,
-                                    totalMass=3,
+                                    totalMass=2,
                                     surfaceColor=[1.0, 1.0, 1.0, 1.0],
-                                    surfaceMeshFileName="mesh/robot.stl",
+                                    surfaceMeshFileName="mesh/robot_50mm.stl",
                                     rotation=rotation,
                                     translation=translation,
                                     name="robot")
@@ -206,7 +205,7 @@ def Robot(parentNode=None, name="Robot",
     robot.addChild(eobject)
 
     CollisionMesh(eobject, name="CollisionMesh",
-                  surfaceMeshFileName="mesh/robot.stl",
+                  surfaceMeshFileName="mesh/robot_50mm.stl",
                   rotation=rotation, translation=translation,
                   collisionGroup=[1, 2])
 
@@ -332,8 +331,8 @@ def createScene(rootNode):
     rootNode.addObject('RequiredPlugin', name="Sofa.GL.Component.Shader")
     rootNode.addObject('OglSceneFrame', style="Arrows", alignment="TopRight")
 
-    MainHeader(rootNode, gravity=[0.0, 0.0, -9810.0], plugins=["SoftRobots"])
-    ContactHeader(rootNode, alarmDistance=0.1*100, contactDistance=0.05*100, frictionCoef=8)
+    MainHeader(rootNode, gravity=[0.0, 0.0, -20000.0], plugins=["SoftRobots"])
+    ContactHeader(rootNode, alarmDistance=0.1*100, contactDistance=0.05*100, frictionCoef=20)
     rootNode.VisualStyle.displayFlags = "showBehavior showCollisionModels"
     rootNode.addObject( TimerController() )
 
